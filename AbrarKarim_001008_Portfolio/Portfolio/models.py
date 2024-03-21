@@ -1,11 +1,13 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
-
+from django.core.exceptions import ValidationError
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=255, null=True)
-    age = models.IntegerField(null=True)
+    age = models.IntegerField(null=True,validators=[MinValueValidator(0),
+                                          MaxValueValidator(100)])
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')], null=True)
     title = models.CharField(max_length=200, null=True)
     description = models.TextField(null=True)
